@@ -20,7 +20,6 @@ class InferenceConfig(foodConfig):
 def predict():
     if request.files.get('image'):
         image = skimage.io.imread(request.files['image'])
-        print(image)
         results = model.detect([image], verbose=1)
         r = results[0]
         res = []
@@ -28,10 +27,13 @@ def predict():
             res.append(class_names[i])
             print(class_names[i])
         return jsonify(res)
+    return "No Image"
 
 @app.route('/', methods=['GET'])
 def home():
-    return "Bnn-project ml API"
+    skimage_ver = skimage.__version__
+    print(skimage_ver)
+    return "Bnn-project ml API " + skimage_ver
 
 if __name__ == '__main__':
     inference_config = InferenceConfig()
